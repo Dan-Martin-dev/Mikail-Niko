@@ -1,0 +1,5 @@
+dist
+node_modules
+.github
+.changeset
+WEBSITE_EXAMPLES.md

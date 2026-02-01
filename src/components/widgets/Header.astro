@@ -1,0 +1,222 @@
+---
+import Logo from '~/components/Logo.astro';
+import ToggleMenu from '~/components/common/ToggleMenu.astro';
+
+import { getHomePermalink } from '~/utils/permalinks';
+
+export interface Props {
+  id?: string;
+  isSticky?: boolean;
+  isDark?: boolean;
+  isFullWidth?: boolean;
+  position?: string;
+}
+
+const {
+  id = 'header',
+  isSticky = false,
+  isDark = false,
+  isFullWidth = false,
+} = Astro.props;
+
+const menuLinks = [
+  { text: 'About', href: '#about' },
+  { text: 'Services', href: '#services' },
+  { text: 'Mission', href: '#mission' },
+  { text: 'Our Projects', href: '#projects' },
+];
+
+const homeLink = getHomePermalink();
+---
+
+<header
+  class:list={[
+    { sticky: isSticky, relative: !isSticky, dark: isDark },
+    'top-0 z-40 flex-none mx-auto w-full border-b border-gray-50/0 transition-[opacity] ease-in-out bg-white dark:bg-page',
+  ]}
+  {...isSticky ? { 'data-aw-sticky-header': true } : {}}
+  {...id ? { id } : {}}
+>
+  <div class="absolute inset-0"></div>
+  <div
+    class:list={[
+      'relative text-default py-3 px-3 md:px-6 mx-auto w-full flex justify-between items-center',
+      {
+        'max-w-7xl': !isFullWidth,
+      },
+    ]}
+  >
+    <!-- Left: Logo -->
+    <div class="flex items-center">
+      <a class="flex items-center logo-hover-effect transition-colors duration-300 text-black hover:text-gray-300" href={homeLink}>
+        <Logo />
+      </a>
+    </div>
+
+    <!-- Middle: Navigation Links (Web) -->
+    <nav class="hidden md:flex items-center justify-center flex-1 mx-4">
+      <ul class="flex flex-row gap-8 font-sans font-medium">
+        {
+          menuLinks.map(({ text, href }) => (
+            <li>
+              <a href={href} class="flip-text relative block overflow-hidden h-6 group text-black">
+                <span class="block relative transition-transform duration-500 ease-in-out group-hover:-translate-y-full" data-text-original>
+                  {text}
+                </span>
+                <span class="block absolute top-0 left-0 translate-y-full transition-transform duration-500 ease-in-out group-hover:translate-y-0" data-text-clone>
+                  {text}
+                </span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <!-- Right: Languages + CTA (Web) / Menu + CTA (Mobile) -->
+    <div class="flex items-center gap-4">
+      
+      <!-- Languages (Web Only) -->
+      <div class="hidden md:flex items-center gap-4 mr-4">
+        {['EN', 'ES'].map((lang) => (
+          <button
+            type="button"
+            class="lang-switch flip-text relative block overflow-hidden h-6 w-6 group text-black hover:text-gray-400 font-sans font-medium transition-colors"
+            data-lang={lang}
+          >
+             <span class="block relative transition-transform duration-500 ease-in-out group-hover:-translate-y-full">
+                {lang}
+              </span>
+              <span class="block absolute top-0 left-0 translate-y-full transition-transform duration-500 ease-in-out group-hover:translate-y-0">
+                {lang}
+              </span>
+          </button>
+        ))}
+      </div>
+
+       <!-- Lets Talk Button (Web & Mobile) -->
+       <a href="#contact" class="hidden md:block btn-flip relative overflow-hidden bg-[#D56737] has-gsap-hover text-white font-sans font-medium px-6 py-2 transition-all hover:bg-[#c45a2e]">
+         <div class="relative overflow-hidden h-6 w-full flex justify-center items-center">
+             <span class="block relative hover-target-original">
+                Lets talk
+              </span>
+              <span class="block absolute top-0 left-0 w-full text-center translate-y-full hover-target-clone">
+                Lets talk
+              </span>
+         </div>
+       </a>
+       
+       <!-- Mobile elements -->
+       <div class="flex items-center md:hidden gap-2">
+         <!-- Mobile Lets Talk (Simplified per smart view request)-->
+          <a href="#contact" class="bg-[#D56737] text-white font-sans font-medium px-4 py-2 text-sm">
+            Lets talk
+          </a>
+
+          <!-- Mobile Toggle Menu -->
+          <ToggleMenu class="border border-black px-3 py-1 flex items-center justify-center text-xs font-sans uppercase tracking-widest text-black hover:bg-gray-100 transition-colors">
+             MENU
+          </ToggleMenu>
+       </div>
+
+    </div>
+  </div>
+</header>
+<!-- Mobile Menu Overlay (Simplified) -->
+<nav
+  class="hidden md:hidden fixed inset-0 z-50 bg-white w-full h-screen pt-20 px-6 flex-col gap-6 overflow-y-auto"
+  aria-label="Mobile navigation"
+  id="mobile-menu"
+>
+  <ul class="flex flex-col gap-6 text-2xl font-sans font-medium text-black">
+    {
+      menuLinks.map(({ text, href }) => (
+        <li>
+          <a href={href} class="block py-2 border-b border-gray-l00 mobile-link opacity-0">
+            {text}
+          </a>
+        </li>
+      ))
+    }
+     <li class="flex gap-4 mt-4 mobile-link opacity-0">
+        <button class="text-black mobile-lang" data-lang="EN">EN</button>
+        <button class="text-gray-400 mobile-lang" data-lang="ES">ES</button>
+     </li>
+  </ul>
+</nav>
+
+
+<script>
+  import { gsap } from 'gsap';
+
+  // Toggle Language Active State
+  const langButtons = document.querySelectorAll('.lang-switch');
+  
+  langButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+        // Reset all to black
+        langButtons.forEach(b => b.classList.remove('text-gray-400'));
+        langButtons.forEach(b => b.classList.add('text-black'));
+        
+        // Set clicked to gray
+        btn.classList.remove('text-black');
+        btn.classList.add('text-gray-400');
+    });
+  });
+
+  // Apply GSAP hover effect to the specific button class
+  const gsapButtons = document.querySelectorAll('.has-gsap-hover');
+  
+  gsapButtons.forEach(btn => {
+      const originalText = btn.querySelector('.hover-target-original');
+      const cloneText = btn.querySelector('.hover-target-clone');
+
+      if (originalText && cloneText) {
+          btn.addEventListener('mouseenter', () => {
+              gsap.to(originalText, { y: '-100%', duration: 0.5, ease: 'power2.out' });
+              gsap.to(cloneText, { y: '0%', duration: 0.5, ease: 'power2.out' });
+          });
+
+          btn.addEventListener('mouseleave', () => {
+               gsap.to(originalText, { y: '0%', duration: 0.5, ease: 'power2.out' });
+               gsap.to(cloneText, { y: '100%', duration: 0.5, ease: 'power2.out' });
+          });
+      }
+  });
+
+
+  // Mobile Menu Logic
+  const toggleBtn = document.querySelector('[data-aw-toggle-menu]');
+  const mobileMenu = document.getElementById('mobile-menu');
+  
+  if(toggleBtn && mobileMenu) {
+      toggleBtn.addEventListener('click', () => {
+          const isClosed = mobileMenu.classList.contains('hidden');
+          
+          if(isClosed) {
+            mobileMenu.classList.remove('hidden');
+            mobileMenu.classList.add('flex');
+            
+            // GSAP Animate In
+            gsap.fromTo('.mobile-link', 
+                { y: 20, opacity: 0 },
+                { y: 0, opacity: 1, duration: 0.4, stagger: 0.1, ease: 'power2.out' }
+            );
+          } else {
+            // Animate Out or just hide
+             mobileMenu.classList.add('hidden');
+             mobileMenu.classList.remove('flex');
+          }
+      });
+  }
+
+</script>
+
+<style>
+  html {
+     scroll-behavior: smooth;
+  }
+  header {
+    font-family: 'Inter Variable', sans-serif;
+  }
+</style>

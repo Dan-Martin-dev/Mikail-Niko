@@ -1,0 +1,180 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+
+import Hero from '~/components/widgets/Hero.astro';
+import Stats from '~/components/widgets/Stats.astro';
+import Content from '~/components/widgets/Content.astro';
+import CallToAction from '~/components/widgets/CallToAction.astro';
+
+const metadata = {
+  title: 'Mikatalo - Concrete contracting and premium private homes',
+  ignoreTitleTemplate: true,
+};
+---
+
+<Layout metadata={metadata}>
+  <!-- Hero Widget ******************* -->
+
+  <Hero
+    actions={[
+      {
+        variant: 'primary',
+        text: 'See our projects',
+        href: '#projects',
+      },
+      { text: 'Contact us', href: '#contact' },
+    ]}
+  >
+    <Fragment slot="title">
+      Contracting company from Finland focused on concrete contracting and premium private homes.
+    </Fragment>
+
+    <Fragment slot="subtitle">
+      We combine our dedication and craftsmanship with modern Nordic technologies to deliver lasting quality in every project.
+    </Fragment>
+  </Hero>
+
+  <!-- Stats Widget ****************** -->
+
+  <Stats
+    stats={[
+      { title: 'Years of Experience', amount: '20+' },
+      { title: 'Professionals in Team', amount: '30+' },
+      { title: 'Successful Projects', amount: '200+' },
+    ]}
+  />
+
+  <!-- Content Widget (Concrete Works) **************** -->
+
+  <Content
+    isReversed
+    tagline="Concrete works"
+    title="Built for Decades"
+    items={[
+      {
+        title: 'Ready for Challenges',
+        description:
+          'We delivered complex foundations, tunnels, bridges, high-rise sites, and tight urban areas.',
+      },
+      {
+        title: 'Everything Under One Roof',
+        description:
+          'Excavation, concrete, frames, and finishing — all managed by us.',
+      },
+      {
+        title: 'Adaptive and Smart Solutions',
+        description:
+          'Every site is different. We adjust to its needs with care and experience.',
+      },
+        {
+        title: 'Long-Term Relations',
+        description:
+          'Most clients work with us again. Clear communication and consistency have built our reputation.',
+      },
+       {
+        title: 'Straightforward Terms',
+        description:
+          'Punctual, transparent, and easy to work with.',
+      },
+    ]}
+  >
+    <Fragment slot="content">
+      <h3 class="text-2xl font-bold tracking-tight dark:text-white sm:text-3xl mb-2">Our approach</h3>
+      Whether it’s a small site or a large-scale build, we focus on what matters most: quality and timelines.
+    </Fragment>
+
+    <Fragment slot="bg">
+      <div class="absolute inset-0 bg-blue-50 dark:bg-transparent"></div>
+    </Fragment>
+  </Content>
+
+  <!-- Content Widget (Turnkey Villas) **************** -->
+
+  <Content
+    isAfterContent
+    tagline="Turnkey villas"
+    title="We build partnerships"
+    items={[
+      {
+        title: 'Fast Turnaround',
+        description:
+          'We deliver fully finished villas in 6–8 months — from first plans to handover.',
+      },
+      {
+        title: 'Uniquely Yours',
+        description:
+          'Each home is designed around you. No prefabs, no catalogue copies.',
+      },
+      {
+        title: 'Nordic Craftmanship',
+        description:
+          'Built to the highest Scandinavian standards — sustainability, energy efficiency.',
+      },
+        {
+        title: 'All-In-One Service',
+        description:
+          'From permits and foundations to interior finishing — we manage every step.',
+      },
+       {
+        title: 'Price Transparency',
+        description:
+          'Clear contracts, defined budgets. No unexpected add-ons.',
+      },
+       {
+        title: 'Built to Endure',
+        description:
+          'Our villas are designed with timeless materials and smart architecture.',
+      },
+    ]}
+  >
+    <Fragment slot="content">
+      <h3 class="text-2xl font-bold tracking-tight dark:text-white sm:text-3xl mb-2">Key-to-hand contractor service</h3>
+       We create tailored, aesthetic solutions with no mass-market shortcuts.
+    </Fragment>
+
+    <Fragment slot="bg">
+      <div class="absolute inset-0 bg-blue-50 dark:bg-transparent"></div>
+    </Fragment>
+  </Content>
+
+    <!-- Content Widget (Founder) **************** -->
+
+  <Content
+    isReversed
+    isAfterContent
+    items={[
+      {
+        title: 'Mikhail Murashkevich',
+        description: 'Founder of Mikatalo',
+      },
+    ]}
+    
+  >
+    <Fragment slot="content">
+      <h3 class="text-2xl font-bold tracking-tight dark:text-white sm:text-3xl mb-2">We build future today</h3>
+      With over 20 years in the construction industry, I see every project as a meaningful part of my life: an opportunity to create something valuable and lasting. Construction isn’t just about concrete and structures. It’s about shaping an environment where people and future generations can live with comfort and dignity.
+    </Fragment>
+  </Content>
+
+  <!-- CTA Widget ******************* -->
+
+  <CallToAction
+    id="contact"
+    actions={[
+      {
+        variant: 'primary',
+        text: 'Get in touch',
+        href: 'mailto:info@mikatalo.com',
+        icon: 'tabler:mail',
+      },
+    ]}
+  >
+    <Fragment slot="title">
+      Your ideas, our expertise
+    </Fragment>
+
+    <Fragment slot="subtitle">
+      A home should reflect your lifestyle and values. We create modern solutions that ensure comfort, longevity, and timeless design.
+    </Fragment>
+  </CallToAction>
+</Layout>
